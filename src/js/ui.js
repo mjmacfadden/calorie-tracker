@@ -64,7 +64,7 @@ class UI {
             <input type="text" id="customFoodName" placeholder="Custom food name" class="input">
             <input type="number" id="customFoodCalories" placeholder="Cal" class="input input-sm" min="0">
             <input type="number" id="customFoodProtein" placeholder="Protein" class="input input-sm" min="0" step="0.1">
-            <button id="addCustomFoodBtn" class="btn btn-secondary btn-sm">Add</button>
+            <button id="addCustomFoodBtn" class="btn btn-secondary">Add</button>
           </div>
         </div>
 
