@@ -39,6 +39,14 @@ const DEFAULT_FOODS = [
   calories: 100,
   protein: 10,
   isCustom: false
+},
+{
+  id: "protein-shake",
+  name: "Protein Shake",
+  category: "breakfast",
+  calories: 130,
+  protein: 25,
+  isCustom: false
 }
 ];
 
