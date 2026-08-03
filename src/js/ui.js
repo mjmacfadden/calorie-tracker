@@ -24,6 +24,10 @@ class UI {
               <div class="header-stat-label">Protein</div>
               <div class="header-stat-value" id="totalProtein">0g</div>
             </div>
+            <div class="header-stat">
+              <div class="header-stat-label">Weight</div>
+              <div class="header-stat-value" id="currentWeight">--</div>
+            </div>
           </div>
           <div class="header-controls">
             <button id="settingsBtn" class="btn btn-secondary"><i class="bi bi-gear"></i></button>
@@ -34,7 +38,12 @@ class UI {
           <button id="prevDateBtn" class="btn btn-small">← Prev</button>
           <h2 id="currentDate" class="current-date"></h2>
           <button id="nextDateBtn" class="btn btn-small">Next →</button>
-          <button id="todayBtn" class="btn btn-small">Today</button>
+        </div>
+
+        <div class="weight-input-section">
+          <label for="weightInput">Weight (lbs):</label>
+          <input type="number" id="weightInput" class="weight-input" min="0" step="0.1" placeholder="Enter weight">
+          <button id="saveWeightBtn" class="btn btn-small"><i class="bi bi-check"></i></button>
         </div>
 
         <div class="add-food-panel">
@@ -55,7 +64,7 @@ class UI {
             <input type="text" id="customFoodName" placeholder="Custom food name" class="input">
             <input type="number" id="customFoodCalories" placeholder="Cal" class="input input-sm" min="0">
             <input type="number" id="customFoodProtein" placeholder="Protein" class="input input-sm" min="0" step="0.1">
-            <button id="addCustomFoodBtn" class="btn btn-secondary btn-sm">+ Food</button>
+            <button id="addCustomFoodBtn" class="btn btn-secondary btn-sm">Add</button>
           </div>
         </div>
 
@@ -112,6 +121,22 @@ class UI {
     // Update header summary
     document.getElementById('totalCalories').textContent = formatCalories(summary.dailyTotals.calories);
     document.getElementById('totalProtein').textContent = `${formatProtein(summary.dailyTotals.protein)}g`;
+
+    // Update weight display and input
+    const weight = getWeightForDate(this.currentDate);
+    const weightDisplay = document.getElementById('currentWeight');
+    if (weight) {
+      weightDisplay.textContent = weight.toFixed(1) + 'lb';
+    } else {
+      weightDisplay.textContent = '--';
+    }
+
+    const weightInput = document.getElementById('weightInput');
+    if (weight) {
+      weightInput.value = weight;
+    } else {
+      weightInput.value = '';
+    }
 
     // Update food dropdown
     this.updateFoodDropdown(customFoods);

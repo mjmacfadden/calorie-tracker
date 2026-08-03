@@ -4,7 +4,12 @@ function attachEventListeners() {
   // Date navigation
   document.getElementById('prevDateBtn').addEventListener('click', handlePreviousDate);
   document.getElementById('nextDateBtn').addEventListener('click', handleNextDate);
-  document.getElementById('todayBtn').addEventListener('click', handleToday);
+
+  // Weight tracking
+  document.getElementById('saveWeightBtn').addEventListener('click', handleSaveWeight);
+  document.getElementById('weightInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') handleSaveWeight();
+  });
 
   // Settings
   document.getElementById('settingsBtn').addEventListener('click', handleOpenSettings);
@@ -52,9 +57,19 @@ function handleNextDate() {
   ui.updateDisplay();
 }
 
-function handleToday() {
-  ui.currentDate = getTodayDateString();
+// Weight tracking
+function handleSaveWeight() {
+  const weightInput = document.getElementById('weightInput');
+  const weight = parseFloat(weightInput.value);
+
+  if (!weight || weight <= 0) {
+    ui.showNotification('Please enter a valid weight', 'warning');
+    return;
+  }
+
+  saveWeight(ui.currentDate, weight);
   ui.updateDisplay();
+  ui.showNotification(`Saved weight: ${weight.toFixed(1)} lbs`);
 }
 
 // Settings

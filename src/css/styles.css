@@ -110,6 +110,43 @@ body {
   display: none;
 }
 
+/* Weight Input Section */
+.weight-input-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.weight-input-section label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.weight-input {
+  flex: 1;
+  min-width: 80px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.weight-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
 /* Add Food Panel */
 .add-food-panel {
   background-color: var(--bg-secondary);
@@ -536,13 +573,16 @@ hr {
   }
 
   .header-summary {
-    gap: 12px;
+    gap: 8px;
     flex: 1;
-    order: -1;
   }
 
   .header-stat-value {
     font-size: 1.2rem;
+  }
+
+  .header-stat:last-child .header-stat-value {
+    font-size: 1rem;
   }
 
   .date-navigation {
@@ -557,6 +597,21 @@ hr {
 
   .current-date {
     font-size: 0.85rem;
+  }
+
+  .weight-input-section {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    gap: 6px;
+  }
+
+  .weight-input-section label {
+    font-size: 0.85rem;
+  }
+
+  .weight-input {
+    font-size: 0.85rem;
+    padding: 6px 8px;
   }
 
   .food-input-row {
@@ -645,21 +700,26 @@ hr {
   }
 
   .header-left {
-    display: none;
+    flex: 0;
+    white-space: nowrap;
   }
 
   .header h1 {
-    display: none;
+    font-size: 0.95rem;
+    white-space: nowrap;
   }
 
   .header-summary {
     flex: 1;
-    order: -1;
-    gap: 10px;
+    gap: 8px;
   }
 
   .header-stat-value {
     font-size: 1.1rem;
+  }
+
+  .header-stat:last-child .header-stat-value {
+    font-size: 1rem;
   }
 
   .header-controls {
@@ -681,6 +741,27 @@ hr {
   .current-date {
     font-size: 0.8rem;
     flex: 1;
+  }
+
+  .weight-input-section {
+    flex-direction: row;
+    padding: 8px;
+    margin-bottom: 8px;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .weight-input-section label {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .weight-input {
+    font-size: 0.8rem;
+    flex: 1;
+    padding: 6px 8px;
+    min-width: 60px;
   }
 
   .food-input-row {

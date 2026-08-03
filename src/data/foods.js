@@ -79,6 +79,14 @@ const DEFAULT_FOODS = [
   calories: 80,
   protein: 5,
   isCustom: false
+},
+{
+  id: "peanut-butter-pretzels",
+  name: "Peanut Butter Pretzels",
+  category: "snack",
+  calories: 150,
+  protein: 5,
+  isCustom: false
 }
 ];
 

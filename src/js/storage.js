@@ -3,7 +3,8 @@
 const STORAGE_KEYS = {
   LOGS: 'calorieTrackerLogs',
   GOALS: 'calorieTrackerGoals',
-  CUSTOM_FOODS: 'calorieTrackerCustomFoods'
+  CUSTOM_FOODS: 'calorieTrackerCustomFoods',
+  WEIGHTS: 'calorieTrackerWeights'
 };
 
 const DEFAULT_GOALS = {
@@ -20,6 +21,9 @@ function initializeStorage() {
   }
   if (!localStorage.getItem(STORAGE_KEYS.CUSTOM_FOODS)) {
     localStorage.setItem(STORAGE_KEYS.CUSTOM_FOODS, JSON.stringify([]));
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.WEIGHTS)) {
+    localStorage.setItem(STORAGE_KEYS.WEIGHTS, JSON.stringify({}));
   }
 }
 
@@ -168,12 +172,42 @@ function updateCustomFood(foodId, updates) {
   }
 }
 
+// Get all weights
+function getWeights() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEYS.WEIGHTS) || '{}');
+}
+
+// Save weight for a date
+function saveWeight(dateString, weight) {
+  const weights = getWeights();
+  if (weight && weight > 0) {
+    weights[dateString] = parseFloat(weight);
+  } else {
+    delete weights[dateString];
+  }
+  localStorage.setItem(STORAGE_KEYS.WEIGHTS, JSON.stringify(weights));
+}
+
+// Get weight for a specific date
+function getWeightForDate(dateString) {
+  const weights = getWeights();
+  return weights[dateString] || null;
+}
+
+// Get most recent weight
+function getMostRecentWeight() {
+  const weights = getWeights();
+  const dates = Object.keys(weights).sort().reverse();
+  return dates.length > 0 ? { date: dates[0], weight: weights[dates[0]] } : null;
+}
+
 // Export/import data as JSON
 function exportData() {
   return {
     logs: JSON.parse(localStorage.getItem(STORAGE_KEYS.LOGS) || '{}'),
     goals: getGoals(),
     customFoods: getCustomFoods(),
+    weights: getWeights(),
     exportedAt: new Date().toISOString()
   };
 }
@@ -189,6 +223,9 @@ function importData(data) {
   if (data.customFoods) {
     localStorage.setItem(STORAGE_KEYS.CUSTOM_FOODS, JSON.stringify(data.customFoods));
   }
+  if (data.weights) {
+    localStorage.setItem(STORAGE_KEYS.WEIGHTS, JSON.stringify(data.weights));
+  }
 }
 
 // Clear all data
@@ -196,5 +233,6 @@ function clearAllData() {
   localStorage.removeItem(STORAGE_KEYS.LOGS);
   localStorage.removeItem(STORAGE_KEYS.GOALS);
   localStorage.removeItem(STORAGE_KEYS.CUSTOM_FOODS);
+  localStorage.removeItem(STORAGE_KEYS.WEIGHTS);
   initializeStorage();
 }
