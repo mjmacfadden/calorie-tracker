@@ -87,6 +87,22 @@ const DEFAULT_FOODS = [
   calories: 150,
   protein: 5,
   isCustom: false
+},
+{
+  id: "french-fries",
+  name: "French Fries",
+  category: "Dinner",
+  calories: 240,
+  protein: 2,
+  isCustom: false
+},
+{
+  id: "grilled-chicken",
+  name: "Grilled Chicken",
+  category: "Dinner",
+  calories: 165,
+  protein: 32,
+  isCustom: false
 }
 ];
 
