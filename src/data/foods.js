@@ -15,6 +15,30 @@ const DEFAULT_FOODS = [
   calories: 80,
   protein: 0,
   isCustom: false
+},
+{
+  id: "kirkland-chewy-protein-bar",
+  name: "Kirkland Chewy Protein Bar",
+  category: "Snack",
+  calories: 190,
+  protein: 10,
+  isCustom: false
+},
+{
+  id: "light-string-cheese",
+  name: "Light String Cheese",
+  category: "snack",
+  calories: 60,
+  protein: 8,
+  isCustom: false
+},
+{
+  id: "chomps",
+  name: "Chomps",
+  category: "snack",
+  calories: 100,
+  protein: 10,
+  isCustom: false
 }
 ];
 
