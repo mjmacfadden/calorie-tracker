@@ -1,0 +1,28 @@
+{
+  "name": "calorie-tracker",
+  "version": "1.0.0",
+  "description": "A lightweight, offline-first calorie and protein tracker for GitHub Pages",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "python -m http.server 8000 --directory src",
+    "dev": "python -m http.server 8000 --directory src"
+  },
+  "keywords": [
+    "calorie-tracker",
+    "fitness",
+    "nutrition",
+    "health",
+    "macros",
+    "protein"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/Calorie-Tracker"
+  },
+  "notes": {
+    "description": "This app uses vanilla JavaScript with no npm dependencies required for production. The npm start script is optional for local development.",
+    "deployment": "Simply upload the src/ folder contents to GitHub Pages or any static hosting service."
+  }
+}
