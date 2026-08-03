@@ -127,6 +127,14 @@ const DEFAULT_FOODS = [
   calories: 210,
   protein: 7,
   isCustom: false
+},
+{
+  id: "whisps",
+  name: "Whisps (14 Crisps)",
+  category: "Snack",
+  calories: 160,
+  protein: 13,
+  isCustom: false
 }
 ];
 
