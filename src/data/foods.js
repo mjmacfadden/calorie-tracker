@@ -71,6 +71,14 @@ const DEFAULT_FOODS = [
   calories: 60,
   protein: 4,
   isCustom: false
+},
+{
+  id: "cheese-bar",
+  name: "Cheese Bar",
+  category: "snack",
+  calories: 80,
+  protein: 5,
+  isCustom: false
 }
 ];
 
