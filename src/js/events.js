@@ -113,22 +113,31 @@ function handleAddCustomFood() {
   const name = document.getElementById('customFoodName').value.trim();
   const calories = parseFloat(document.getElementById('customFoodCalories').value);
   const protein = parseFloat(document.getElementById('customFoodProtein').value);
+  const mealSelect = document.getElementById('mealSelect');
+  const meal = mealSelect.value;
 
   if (!name || !calories || protein === null) {
     ui.showNotification('Please fill in all fields', 'warning');
     return;
   }
 
+  // Create a temporary custom food object
   const customFood = {
+    id: 'custom-' + Date.now(),
     name,
     calories,
-    protein
+    protein,
+    category: 'custom',
+    isCustom: true
   };
 
-  addCustomFood(customFood);
+  // Add directly to the meal for today
+  const foodEntry = createFoodEntry(customFood, 1);
+  addFoodToMeal(ui.currentDate, meal, foodEntry);
+
   ui.clearCustomFoodForm();
   ui.updateDisplay();
-  ui.showNotification(`Added ${name} to custom foods!`);
+  ui.showNotification(`Added ${name} to ${meal}!`);
 }
 
 // Meal item actions

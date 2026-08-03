@@ -47,6 +47,30 @@ const DEFAULT_FOODS = [
   calories: 130,
   protein: 25,
   isCustom: false
+},
+{
+  id: "popcorners",
+  name: "POPCORNERS",
+  category: "snack",
+  calories: 140,
+  protein: 2,
+  isCustom: false
+},
+{
+  id: "granola-bites",
+  name: "Granola Bites",
+  category: "snack",
+  calories: 110,
+  protein: 2,
+  isCustom: false
+},
+{
+  id: "cheese-wheel",
+  name: "Cheese Wheel",
+  category: "snack",
+  calories: 60,
+  protein: 4,
+  isCustom: false
 }
 ];
 
