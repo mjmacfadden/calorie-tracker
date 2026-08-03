@@ -1,9 +1,9 @@
 // Default food database
 const DEFAULT_FOODS = [
   {
-  id: "breakfast-sandwich",
+  id: "Breakfast-sandwich",
   name: "Breakfast Sandwich",
-  category: "breakfast",
+  category: "Breakfast",
   calories: 350,
   protein: 20,
   isCustom: false
@@ -11,7 +11,7 @@ const DEFAULT_FOODS = [
 {
   id: "meta-mucil",
   name: "Meta Mucil",
-  category: "breakfast",
+  category: "Breakfast",
   calories: 80,
   protein: 0,
   isCustom: false
@@ -27,7 +27,7 @@ const DEFAULT_FOODS = [
 {
   id: "light-string-cheese",
   name: "Light String Cheese",
-  category: "snack",
+  category: "Snack",
   calories: 60,
   protein: 8,
   isCustom: false
@@ -35,7 +35,7 @@ const DEFAULT_FOODS = [
 {
   id: "chomps",
   name: "Chomps",
-  category: "snack",
+  category: "Snack",
   calories: 100,
   protein: 10,
   isCustom: false
@@ -43,7 +43,7 @@ const DEFAULT_FOODS = [
 {
   id: "protein-shake",
   name: "Protein Shake",
-  category: "breakfast",
+  category: "Breakfast",
   calories: 130,
   protein: 25,
   isCustom: false
@@ -51,7 +51,7 @@ const DEFAULT_FOODS = [
 {
   id: "popcorners",
   name: "POPCORNERS",
-  category: "snack",
+  category: "Snack",
   calories: 140,
   protein: 2,
   isCustom: false
@@ -59,7 +59,7 @@ const DEFAULT_FOODS = [
 {
   id: "granola-bites",
   name: "Granola Bites",
-  category: "snack",
+  category: "Snack",
   calories: 110,
   protein: 2,
   isCustom: false
@@ -67,7 +67,7 @@ const DEFAULT_FOODS = [
 {
   id: "cheese-wheel",
   name: "Cheese Wheel",
-  category: "snack",
+  category: "Snack",
   calories: 60,
   protein: 4,
   isCustom: false
@@ -75,7 +75,7 @@ const DEFAULT_FOODS = [
 {
   id: "cheese-bar",
   name: "Cheese Bar",
-  category: "snack",
+  category: "Snack",
   calories: 80,
   protein: 5,
   isCustom: false
@@ -83,7 +83,7 @@ const DEFAULT_FOODS = [
 {
   id: "peanut-butter-pretzels",
   name: "Peanut Butter Pretzels",
-  category: "snack",
+  category: "Snack",
   calories: 150,
   protein: 5,
   isCustom: false
