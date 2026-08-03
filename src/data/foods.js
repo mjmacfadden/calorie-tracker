@@ -103,6 +103,30 @@ const DEFAULT_FOODS = [
   calories: 165,
   protein: 32,
   isCustom: false
+},
+{
+  id: "hamburger",
+  name: "Hamburger",
+  category: "Dinner",
+  calories: 240,
+  protein: 21,
+  isCustom: false
+},
+{
+  id: "penne-pasta",
+  name: "Penne Pasta",
+  category: "Dinner",
+  calories: 200,
+  protein: 7,
+  isCustom: false
+},
+{
+  id: "bowtie-pasta-farfalle",
+  name: "Bowtie Pasta/Farfalle",
+  category: "Dinner",
+  calories: 210,
+  protein: 7,
+  isCustom: false
 }
 ];
 
