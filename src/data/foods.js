@@ -135,6 +135,14 @@ const DEFAULT_FOODS = [
   calories: 160,
   protein: 13,
   isCustom: false
+},
+{
+  id: "cottage-cheese",
+  name: "Cottage Cheese",
+  category: "Snack",
+  calories: 90,
+  protein: 13,
+  isCustom: false
 }
 ];
 
