@@ -143,6 +143,14 @@ const DEFAULT_FOODS = [
   calories: 90,
   protein: 13,
   isCustom: false
+},
+{
+  id: "hard-boiled-egg",
+  name: "Hard Boiled Egg",
+  category: "Snack",
+  calories: 70,
+  protein: 6,
+  isCustom: false
 }
 ];
 
