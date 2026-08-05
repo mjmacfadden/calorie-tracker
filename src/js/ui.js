@@ -26,7 +26,7 @@ class UI {
             </div>
             <div class="header-stat">
               <div class="header-stat-label">Weight</div>
-              <div class="header-stat-value" id="currentWeight">--</div>
+              <div class="header-stat-value weight-clickable" id="currentWeight">--</div>
             </div>
           </div>
           <div class="header-controls">
@@ -69,6 +69,10 @@ class UI {
         </div>
 
         <div class="meals-container" id="mealsContainer"></div>
+
+        <div class="copy-log-section">
+          <button id="copyLogBtn" class="btn btn-primary"><i class="bi bi-clipboard"></i> Copy Log as Text</button>
+        </div>
       </div>
 
       <div id="settingsModal" class="modal hidden">
@@ -99,6 +103,20 @@ class UI {
           </div>
           <div class="modal-footer">
             <button id="saveSettingsBtn" class="btn btn-primary">Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="weightChartModal" class="modal hidden">
+        <div class="modal-content modal-content-lg">
+          <div class="modal-header">
+            <h2>Weight Progress</h2>
+            <button id="closeWeightChartBtn" class="btn-close">×</button>
+          </div>
+          <div class="modal-body">
+            <div class="chart-container">
+              <canvas id="weightChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
@@ -303,6 +321,192 @@ class UI {
       notification.classList.remove('show');
       setTimeout(() => notification.remove(), 300);
     }, 3000);
+  }
+
+  // Show weight chart modal
+  showWeightChart() {
+    document.getElementById('weightChartModal').classList.remove('hidden');
+    this.renderWeightChart();
+  }
+
+  // Hide weight chart modal
+  hideWeightChart() {
+    document.getElementById('weightChartModal').classList.add('hidden');
+  }
+
+  // Render weight chart with trend line
+  renderWeightChart() {
+    const weights = getWeights();
+    const sortedDates = Object.keys(weights).sort();
+    
+    if (sortedDates.length === 0) {
+      this.showNotification('No weight data available', 'warning');
+      return;
+    }
+
+    const chartData = sortedDates.map(date => ({
+      date: new Date(date),
+      weight: weights[date]
+    }));
+
+    // Calculate trend line using linear regression
+    const trendLine = this.calculateTrendLine(chartData);
+
+    const ctx = document.getElementById('weightChart');
+    if (ctx.chart) {
+      ctx.chart.destroy();
+    }
+
+    ctx.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: sortedDates.map(date => {
+          const d = new Date(date + 'T00:00:00');
+          return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }),
+        datasets: [
+          {
+            label: 'Weight (lbs)',
+            data: chartData.map(d => d.weight),
+            borderColor: '#06b6d4',
+            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+            fill: true,
+            borderWidth: 2,
+            pointRadius: 5,
+            pointBackgroundColor: '#06b6d4',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 1,
+            tension: 0.3
+          },
+          {
+            label: 'Trend',
+            data: trendLine,
+            borderColor: '#4f46e5',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            fill: false,
+            pointRadius: 0,
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              color: '#f1f5f9',
+              font: { size: 14 }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              color: '#cbd5e1'
+            },
+            grid: {
+              color: 'rgba(71, 85, 105, 0.2)'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#cbd5e1'
+            },
+            grid: {
+              color: 'rgba(71, 85, 105, 0.2)'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Calculate trend line using linear regression
+  calculateTrendLine(chartData) {
+    const n = chartData.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+
+    chartData.forEach((point, index) => {
+      sumX += index;
+      sumY += point.weight;
+      sumXY += index * point.weight;
+      sumXX += index * index;
+    });
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    return chartData.map((_, index) => slope * index + intercept);
+  }
+
+  // Generate log text for copying
+  generateLogText() {
+    const summary = getDailySummary(this.currentDate);
+    const goals = getGoals();
+    const weight = getWeightForDate(this.currentDate);
+    const logs = getLogsForDate(this.currentDate);
+
+    const dateObj = new Date(this.currentDate + 'T00:00:00');
+    const dateStr = dateObj.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    let text = `=== CALORIE TRACKER LOG ===\n`;
+    text += `Date: ${dateStr}\n\n`;
+
+    // Daily Summary
+    text += `--- DAILY SUMMARY ---\n`;
+    text += `Calories: ${summary.dailyTotals.calories} / ${goals.calorieTarget}\n`;
+    text += `Protein: ${summary.dailyTotals.protein}g / ${goals.proteinTarget}g\n`;
+    if (weight) {
+      text += `Weight: ${weight.toFixed(1)} lbs\n`;
+    }
+    text += `\n`;
+
+    // Meals
+    text += `--- MEALS ---\n`;
+    MEALS.forEach(meal => {
+      const items = logs[meal] || [];
+      const totals = summary.mealTotals[meal];
+      
+      text += `\n${this.capitalizeFirst(meal).toUpperCase()}:\n`;
+      text += `Total: ${totals.calories} cal | ${totals.protein}g protein\n`;
+      
+      if (items.length === 0) {
+        text += `  (no items)\n`;
+      } else {
+        items.forEach(item => {
+          text += `  • ${item.foodName}: ${item.calories} cal, ${item.protein}g protein (Qty: ${item.servings})\n`;
+        });
+      }
+    });
+
+    return text;
+  }
+
+  // Copy log to clipboard
+  copyLogToClipboard() {
+    const logText = this.generateLogText();
+    
+    navigator.clipboard.writeText(logText).then(() => {
+      this.showNotification('Log copied to clipboard!');
+    }).catch(() => {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = logText;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      this.showNotification('Log copied to clipboard!');
+    });
   }
 }
 

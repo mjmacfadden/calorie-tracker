@@ -16,6 +16,13 @@ function attachEventListeners() {
   document.getElementById('closeSettingsBtn').addEventListener('click', handleCloseSettings);
   document.getElementById('saveSettingsBtn').addEventListener('click', handleSaveSettings);
 
+  // Weight chart
+  document.getElementById('currentWeight').addEventListener('click', handleOpenWeightChart);
+  document.getElementById('closeWeightChartBtn').addEventListener('click', handleCloseWeightChart);
+
+  // Copy log
+  document.getElementById('copyLogBtn').addEventListener('click', handleCopyLog);
+
   // Food logging
   document.getElementById('addFoodBtn').addEventListener('click', handleAddFood);
   document.getElementById('foodSelect').addEventListener('change', handleFoodSelect);
@@ -91,6 +98,20 @@ function handleSaveSettings() {
   ui.hideSettings();
   ui.updateDisplay();
   ui.showNotification('Settings saved!');
+}
+
+// Weight chart
+function handleOpenWeightChart() {
+  ui.showWeightChart();
+}
+
+function handleCloseWeightChart() {
+  ui.hideWeightChart();
+}
+
+// Copy log
+function handleCopyLog() {
+  ui.copyLogToClipboard();
 }
 
 // Food logging

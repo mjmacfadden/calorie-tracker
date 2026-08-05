@@ -12,7 +12,7 @@ const DEFAULT_FOODS = [
   id: "meta-mucil",
   name: "Meta Mucil",
   category: "Breakfast",
-  calories: 80,
+  calories: 40,
   protein: 0,
   isCustom: false
 },
@@ -148,7 +148,7 @@ const DEFAULT_FOODS = [
   id: "hard-boiled-egg",
   name: "Hard Boiled Egg",
   category: "Snack",
-  calories: 70,
+  calories: 75,
   protein: 6,
   isCustom: false
 }
