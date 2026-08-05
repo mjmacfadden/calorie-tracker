@@ -10,15 +10,24 @@ class UI {
   render() {
     const app = document.getElementById('app');
     app.innerHTML = `
+      <div class="progress-trackers">
+        <div class="progress-bar">
+          <div class="progress-fill calories-fill" id="caloriesFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill protein-fill" id="proteinFill" style="width: 0%"></div>
+        </div>
+      </div>
+
       <div class="container">
         <header class="header">
           <div class="header-left">
-            <h1>📊 Calorie Tracker</h1>
+            <h1>📊 CalTrack</h1>
           </div>
           <div class="header-summary">
             <div class="header-stat">
               <div class="header-stat-label">Cal</div>
-              <div class="header-stat-value" id="totalCalories">0</div>
+              <div class="header-stat-value calories-primary" id="totalCalories">0</div>
             </div>
             <div class="header-stat">
               <div class="header-stat-label">Protein</div>
@@ -91,10 +100,6 @@ class UI {
               <input type="number" id="goalProtein" class="input" min="0" step="1">
             </div>
             <div class="settings-group">
-              <h3>Manage Custom Foods</h3>
-              <div id="customFoodsList" class="custom-foods-list"></div>
-            </div>
-            <div class="settings-group">
               <h3>Data Management</h3>
               <button id="exportBtn" class="btn btn-secondary"><i class="bi bi-download"></i> Export Data</button>
               <button id="importBtn" class="btn btn-secondary"><i class="bi bi-upload"></i> Import Data</button>
@@ -127,6 +132,7 @@ class UI {
   updateDisplay() {
     const summary = getDailySummary(this.currentDate);
     const customFoods = getCustomFoods();
+    const goals = getGoals();
 
     // Update date
     const dateObj = new Date(this.currentDate + 'T00:00:00');
@@ -139,6 +145,13 @@ class UI {
     // Update header summary
     document.getElementById('totalCalories').textContent = formatCalories(summary.dailyTotals.calories);
     document.getElementById('totalProtein').textContent = `${formatProtein(summary.dailyTotals.protein)}g`;
+
+    // Update progress trackers
+    const caloriesPercent = Math.min((summary.dailyTotals.calories / goals.calorieTarget) * 100, 100);
+    const proteinPercent = Math.min((summary.dailyTotals.protein / goals.proteinTarget) * 100, 100);
+    
+    document.getElementById('caloriesFill').style.width = `${caloriesPercent}%`;
+    document.getElementById('proteinFill').style.width = `${proteinPercent}%`;
 
     // Update weight display and input
     const weight = getWeightForDate(this.currentDate);
@@ -235,21 +248,7 @@ class UI {
     document.getElementById('goalCalories').value = goals.calorieTarget;
     document.getElementById('goalProtein').value = goals.proteinTarget;
 
-    const customFoods = getCustomFoods();
-    const customFoodsList = document.getElementById('customFoodsList');
 
-    if (customFoods.length === 0) {
-      customFoodsList.innerHTML = '<p>No custom foods yet</p>';
-    } else {
-      customFoodsList.innerHTML = customFoods.map(food => `
-        <div class="custom-food-item">
-          <div>
-            <strong>${food.name}</strong> - ${food.calories}cal / ${formatProtein(food.protein)}g
-          </div>
-          <button class="btn-icon delete-custom-food" data-food-id="${food.id}"><i class="bi bi-trash"></i></button>
-        </div>
-      `).join('');
-    }
   }
 
   // Helper to get category label

@@ -34,8 +34,7 @@ function attachEventListeners() {
   document.addEventListener('click', handleMealItemActions);
   document.addEventListener('input', handleItemServingsChange);
 
-  // Settings modal actions
-  document.addEventListener('click', handleSettingsActions);
+
 
   // Data management
   document.getElementById('exportBtn').addEventListener('click', handleExportData);
@@ -188,14 +187,7 @@ function handleMealItemActions(e) {
     return;
   }
 
-  const deleteCustomBtn = e.target.closest('.delete-custom-food');
-  if (deleteCustomBtn) {
-    const foodId = deleteCustomBtn.dataset.foodId;
-    deleteCustomFood(foodId);
-    ui.updateSettingsModal();
-    ui.updateDisplay();
-    ui.showNotification('Custom food deleted');
-  }
+
 }
 
 function handleItemServingsChange(e) {
@@ -210,17 +202,7 @@ function handleItemServingsChange(e) {
   ui.updateDisplay();
 }
 
-// Settings modal actions
-function handleSettingsActions(e) {
-  const deleteCustomBtn = e.target.closest('.delete-custom-food');
-  if (deleteCustomBtn && ui.settingsModalVisible) {
-    const foodId = deleteCustomBtn.dataset.foodId;
-    deleteCustomFood(foodId);
-    ui.updateSettingsModal();
-    ui.updateDisplay();
-    ui.showNotification('Custom food deleted');
-  }
-}
+
 
 // Data management
 function handleExportData() {
