@@ -1,0 +1,34 @@
+{
+  "name": "CalTrack",
+  "short_name": "CalTrack",
+  "description": "A simple calorie and protein tracker for daily nutrition monitoring",
+  "start_url": "/Calorie%20Tracker/src/index.html",
+  "scope": "/Calorie%20Tracker/src/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "icons": [
+    {
+      "src": "images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["health", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "images/favicon.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

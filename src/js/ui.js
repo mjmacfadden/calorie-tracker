@@ -22,7 +22,7 @@ class UI {
       <div class="container">
         <header class="header">
           <div class="header-left">
-            <h1>📊 CalTrack</h1>
+            <h1>CalTrack</h1>
           </div>
           <div class="header-summary">
             <div class="header-stat">
