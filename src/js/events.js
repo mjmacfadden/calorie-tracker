@@ -68,11 +68,21 @@ function handleSaveWeight() {
   const weightInput = document.getElementById('weightInput');
   const weight = parseFloat(weightInput.value);
 
+  // If input is empty, delete the weight entry
+  if (weightInput.value.trim() === '') {
+    saveWeight(ui.currentDate, null);
+    ui.updateDisplay();
+    ui.showNotification('Weight entry deleted');
+    return;
+  }
+
+  // If input is not empty but invalid
   if (!weight || weight <= 0) {
     ui.showNotification('Please enter a valid weight', 'warning');
     return;
   }
 
+  // Save valid weight
   saveWeight(ui.currentDate, weight);
   ui.updateDisplay();
   ui.showNotification(`Saved weight: ${weight.toFixed(1)} lbs`);
