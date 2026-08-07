@@ -17,16 +17,16 @@ const DEFAULT_FOODS = [
   isCustom: false
 },
 {
-  id: "kirkland-chewy-protein-bar",
-  name: "Kirkland Chewy Protein Bar",
+  id: "protein-bar",
+  name: "Protein Bar",
   category: "Snack",
   calories: 190,
   protein: 10,
   isCustom: false
 },
 {
-  id: "light-string-cheese",
-  name: "Light String Cheese",
+  id: "cheese-stick",
+  name: "Cheese Stick",
   category: "Snack",
   calories: 60,
   protein: 8,
@@ -50,7 +50,7 @@ const DEFAULT_FOODS = [
 },
 {
   id: "popcorners",
-  name: "POPCORNERS",
+  name: "PopCorners",
   category: "Snack",
   calories: 140,
   protein: 2,
@@ -161,7 +161,9 @@ function getAllFoods(customFoods = []) {
 
 // Export function to get foods by category
 function getFoodsByCategory(category, customFoods = []) {
-  return getAllFoods(customFoods).filter(food => food.category === category);
+  return getAllFoods(customFoods)
+    .filter(food => food.category === category)
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 // Get unique categories

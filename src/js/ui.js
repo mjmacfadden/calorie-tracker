@@ -183,7 +183,6 @@ class UI {
   updateFoodDropdown(customFoods) {
     const foodSelect = document.getElementById('foodSelect');
     const categories = getCategories(customFoods);
-    const allFoods = getAllFoods(customFoods);
 
     foodSelect.innerHTML = '<option value="">Select a food...</option>';
 
@@ -191,7 +190,7 @@ class UI {
       const optgroup = document.createElement('optgroup');
       optgroup.label = this.getCategoryLabel(category);
 
-      const categoryFoods = allFoods.filter(f => f.category === category);
+      const categoryFoods = getFoodsByCategory(category, customFoods);
       categoryFoods.forEach(food => {
         const option = document.createElement('option');
         option.value = JSON.stringify(food);
