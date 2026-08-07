@@ -122,6 +122,16 @@ class UI {
             <div class="chart-container">
               <canvas id="weightChart"></canvas>
             </div>
+            <div class="weight-stats">
+              <div class="weight-stat-item">
+                <span class="weight-stat-label">Total Weight Lost:</span>
+                <span class="weight-stat-value" id="totalWeightLost">--</span>
+              </div>
+            </div>
+            <div class="chart-actions">
+              <button id="downloadChartBtn" class="btn btn-secondary"><i class="bi bi-download"></i> Download</button>
+              <button id="copyChartBtn" class="btn btn-secondary"><i class="bi bi-clipboard"></i> Copy</button>
+            </div>
           </div>
         </div>
       </div>
@@ -325,6 +335,7 @@ class UI {
   showWeightChart() {
     document.getElementById('weightChartModal').classList.remove('hidden');
     this.renderWeightChart();
+    this.attachChartActionListeners();
   }
 
   // Hide weight chart modal
@@ -346,6 +357,14 @@ class UI {
       date: new Date(date),
       weight: weights[date]
     }));
+
+    // Calculate weight lost
+    const firstWeight = chartData[0].weight;
+    const currentWeight = chartData[chartData.length - 1].weight;
+    const weightLost = firstWeight - currentWeight;
+    document.getElementById('totalWeightLost').textContent = weightLost > 0 ? 
+      `${weightLost.toFixed(1)} lbs` : 
+      `+${Math.abs(weightLost).toFixed(1)} lbs`;
 
     // Calculate trend line using linear regression
     const trendLine = this.calculateTrendLine(chartData);
@@ -505,6 +524,74 @@ class UI {
       document.body.removeChild(textarea);
       this.showNotification('Log copied to clipboard!');
     });
+  }
+
+  // Attach chart action listeners
+  attachChartActionListeners() {
+    document.getElementById('downloadChartBtn').addEventListener('click', () => this.downloadChartImage());
+    document.getElementById('copyChartBtn').addEventListener('click', () => this.copyChartImage());
+  }
+
+  // Download chart as image
+  downloadChartImage() {
+    this.createCompositeChartImage((newCanvas) => {
+      const link = document.createElement('a');
+      link.href = newCanvas.toDataURL('image/png');
+      link.download = `weight-chart-${new Date().toISOString().split('T')[0]}.png`;
+      link.click();
+      this.showNotification('Chart downloaded!');
+    });
+  }
+
+  // Copy chart as image to clipboard
+  copyChartImage() {
+    this.createCompositeChartImage((newCanvas) => {
+      newCanvas.toBlob(blob => {
+        const item = new ClipboardItem({ 'image/png': blob });
+        navigator.clipboard.write([item]).then(() => {
+          this.showNotification('Chart copied to clipboard!');
+        }).catch(() => {
+          this.showNotification('Could not copy chart', 'warning');
+        });
+      }, 'image/png');
+    });
+  }
+
+  // Create composite chart image with stats and styling
+  createCompositeChartImage(callback) {
+    const sourceCanvas = document.getElementById('weightChart');
+    const padding = 30;
+    const textPadding = 40;
+    
+    // Get weight lost text
+    const weightLostText = document.getElementById('totalWeightLost').textContent;
+    
+    // Create new canvas with padding and space for text
+    const newCanvas = document.createElement('canvas');
+    const ctx = newCanvas.getContext('2d');
+    
+    newCanvas.width = sourceCanvas.width + (padding * 2);
+    newCanvas.height = sourceCanvas.height + (padding * 2) + textPadding;
+    
+    // Draw background
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+    
+    // Draw chart image
+    const chartImage = new Image();
+    chartImage.onload = () => {
+      ctx.drawImage(chartImage, padding, padding);
+      
+      // Draw weight loss stats
+      ctx.fillStyle = '#f1f5f9';
+      ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`Total Weight Lost: ${weightLostText}`, newCanvas.width / 2, sourceCanvas.height + padding + 35);
+      
+      callback(newCanvas);
+    };
+    
+    chartImage.src = sourceCanvas.toDataURL('image/png');
   }
 }
 

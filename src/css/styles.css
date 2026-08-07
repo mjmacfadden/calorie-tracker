@@ -566,6 +566,38 @@ hr {
   margin-bottom: 20px;
 }
 
+.weight-stats {
+  background-color: var(--bg-tertiary);
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.weight-stat-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.weight-stat-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.weight-stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-primary);
+}
+
+.chart-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
 .custom-foods-list {
   background-color: var(--bg-tertiary);
   border-radius: 6px;
