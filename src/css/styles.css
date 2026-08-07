@@ -559,6 +559,16 @@ hr {
   margin-bottom: 8px;
 }
 
+.settings-group .btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.settings-group .btn:last-of-type {
+  margin-bottom: 0;
+}
+
 .chart-container {
   position: relative;
   height: 400px;
