@@ -81,6 +81,8 @@ class UI {
 
         <div class="copy-log-section">
           <button id="copyLogBtn" class="btn btn-primary"><i class="bi bi-clipboard"></i> Copy Log as Text</button>
+          <button id="chatgptBtn" class="icon-btn" title="Send to ChatGPT"><i class="bi bi-openai"></i></button>
+          <button id="grokBtn" class="icon-btn" title="Send to Grok"><i class="bi bi-lightning-charge"></i></button>
         </div>
       </div>
 

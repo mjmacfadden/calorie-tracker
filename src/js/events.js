@@ -22,6 +22,8 @@ function attachEventListeners() {
 
   // Copy log
   document.getElementById('copyLogBtn').addEventListener('click', handleCopyLog);
+  document.getElementById('chatgptBtn').addEventListener('click', handleSendToChatGPT);
+  document.getElementById('grokBtn').addEventListener('click', handleSendToGrok);
 
   // Food logging
   document.getElementById('addFoodBtn').addEventListener('click', handleAddFood);
@@ -257,4 +259,42 @@ function handleClearAllData() {
     ui.updateDisplay();
     ui.showNotification('All data cleared');
   }
+}
+
+// Send log to ChatGPT
+function handleSendToChatGPT() {
+  const logText = ui.generateLogText();
+  const fullPrompt = `${logText}\n\nReview my food log for today. What did I do well, and what could I improve tomorrow? Focus on calorie/protein targets and meal balance.`;
+  
+  // Try to open ChatGPT with pre-filled prompt via URL encoding
+  const encodedPrompt = encodeURIComponent(fullPrompt);
+  const chatgptUrl = `https://chatgpt.com/?q=${encodedPrompt}`;
+  
+  // Copy to clipboard as backup
+  navigator.clipboard.writeText(fullPrompt).then(() => {
+    window.open(chatgptUrl, '_blank');
+    ui.showNotification('Opened ChatGPT with your log!');
+  }).catch(() => {
+    window.open('https://chatgpt.com/', '_blank');
+    ui.showNotification('Could not copy to clipboard', 'warning');
+  });
+}
+
+// Send log to Grok
+function handleSendToGrok() {
+  const logText = ui.generateLogText();
+  const fullPrompt = `${logText}\n\nReview my food log for today. What did I do well, and what could I improve tomorrow? Focus on calorie/protein targets and meal balance.`;
+  
+  // Try to open Grok with pre-filled prompt via URL encoding
+  const encodedPrompt = encodeURIComponent(fullPrompt);
+  const grokUrl = `https://grok.com/?q=${encodedPrompt}`;
+  
+  // Copy to clipboard as backup
+  navigator.clipboard.writeText(fullPrompt).then(() => {
+    window.open(grokUrl, '_blank');
+    ui.showNotification('Opened Grok with your log!');
+  }).catch(() => {
+    window.open('https://grok.com/', '_blank');
+    ui.showNotification('Could not copy to clipboard', 'warning');
+  });
 }
