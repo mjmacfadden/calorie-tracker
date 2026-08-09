@@ -27,15 +27,21 @@ function initializeStorage() {
   }
 }
 
-// Get today's date as YYYY-MM-DD string
+// Get today's date as YYYY-MM-DD string (using local timezone, not UTC)
 function getTodayDateString() {
   const today = new Date();
-  return today.toISOString().split('T')[0];
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
-// Get date string for a specific date
+// Get date string for a specific date (using local timezone, not UTC)
 function getDateString(date) {
-  return date.toISOString().split('T')[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 // Get previous day date string
@@ -50,6 +56,29 @@ function getNextDayString(dateString) {
   const date = new Date(dateString + 'T00:00:00');
   date.setDate(date.getDate() + 1);
   return getDateString(date);
+}
+
+// Get current meal type based on local time of day
+function getCurrentMealType() {
+  const now = new Date();
+  const hour = now.getHours();
+  
+  // Breakfast: 6 AM - 10:59 AM
+  if (hour >= 6 && hour < 11) {
+    return 'breakfast';
+  }
+  // Lunch: 11 AM - 3:59 PM
+  else if (hour >= 11 && hour < 16) {
+    return 'lunch';
+  }
+  // Dinner: 4 PM - 9:59 PM
+  else if (hour >= 16 && hour < 22) {
+    return 'dinner';
+  }
+  // Snacks: 10 PM - 5:59 AM
+  else {
+    return 'snacks';
+  }
 }
 
 // Get all logs or create empty structure for a date

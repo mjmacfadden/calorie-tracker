@@ -184,11 +184,23 @@ class UI {
     // Update food dropdown
     this.updateFoodDropdown(customFoods);
 
+    // Set default meal type based on time of day (only if viewing today)
+    if (this.currentDate === getTodayDateString()) {
+      this.setDefaultMealType();
+    }
+
     // Update meals display
     this.updateMealsDisplay(summary.mealTotals);
 
     // Update settings modal
     this.updateSettingsModal();
+  }
+
+  // Set meal dropdown to default based on time of day
+  setDefaultMealType() {
+    const mealSelect = document.getElementById('mealSelect');
+    const currentMeal = getCurrentMealType();
+    mealSelect.value = currentMeal;
   }
 
   // Update food dropdown with available foods
@@ -235,8 +247,8 @@ class UI {
             ${items.length === 0 ? '<p class="empty-meal">No items added</p>' : ''}
             ${items.map(item => `
               <div class="meal-item">
-                <div class="item-info">
-                  <div class="item-name">${item.foodName}</div>
+                <div class="item-info item-info-clickable" title="Click to copy food name">
+                  <div class="item-name copy-food-name" data-food-name="${item.foodName}">${item.foodName}</div>
                   <div class="item-details">
                     Qty: ${item.servings} | ${formatCalories(item.calories)}cal | ${formatProtein(item.protein)}g
                   </div>

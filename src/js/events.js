@@ -199,7 +199,24 @@ function handleMealItemActions(e) {
     return;
   }
 
-
+  // Copy food name to clipboard when clicking on food item
+  const foodNameElement = e.target.closest('.copy-food-name');
+  if (foodNameElement) {
+    const foodName = foodNameElement.dataset.foodName;
+    navigator.clipboard.writeText(foodName).then(() => {
+      ui.showNotification(`"${foodName}" copied to clipboard!`);
+    }).catch(() => {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = foodName;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      ui.showNotification(`"${foodName}" copied to clipboard!`);
+    });
+    return;
+  }
 }
 
 function handleItemServingsChange(e) {
@@ -264,7 +281,15 @@ function handleClearAllData() {
 // Send log to ChatGPT
 function handleSendToChatGPT() {
   const logText = ui.generateLogText();
-  const fullPrompt = `${logText}\n\nReview my food log for today. What did I do well, and what could I improve tomorrow? Focus on calorie/protein targets and meal balance.`;
+  const logs = getLogsForDate(ui.currentDate);
+  const hasDinner = logs.dinner && logs.dinner.length > 0;
+  
+  let fullPrompt;
+  if (hasDinner) {
+    fullPrompt = `${logText}\n\nReview my food log for today. What did I do well, and what could I improve tomorrow? Focus on calorie/protein targets and meal balance.`;
+  } else {
+    fullPrompt = `${logText}\n\nHow am I doing so far today? Any feedback on my meals so far? Focus on calorie/protein targets and meal balance.`;
+  }
   
   // Try to open ChatGPT with pre-filled prompt via URL encoding
   const encodedPrompt = encodeURIComponent(fullPrompt);
@@ -283,7 +308,15 @@ function handleSendToChatGPT() {
 // Send log to Grok
 function handleSendToGrok() {
   const logText = ui.generateLogText();
-  const fullPrompt = `${logText}\n\nReview my food log for today. What did I do well, and what could I improve tomorrow? Focus on calorie/protein targets and meal balance.`;
+  const logs = getLogsForDate(ui.currentDate);
+  const hasDinner = logs.dinner && logs.dinner.length > 0;
+  
+  let fullPrompt;
+  if (hasDinner) {
+    fullPrompt = `${logText}\n\nReview my food log for today. What did I do well, and what could I improve tomorrow? Focus on calorie/protein targets and meal balance.`;
+  } else {
+    fullPrompt = `${logText}\n\nHow am I doing so far today? Any feedback on my meals so far? Focus on calorie/protein targets and meal balance.`;
+  }
   
   // Try to open Grok with pre-filled prompt via URL encoding
   const encodedPrompt = encodeURIComponent(fullPrompt);

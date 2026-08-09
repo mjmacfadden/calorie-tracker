@@ -478,6 +478,28 @@ hr {
   margin-bottom: 3px;
 }
 
+.item-info-clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.item-info-clickable:hover {
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  transform: translateX(2px);
+}
+
+.copy-food-name {
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+
+.item-info-clickable:hover .copy-food-name {
+  color: var(--secondary-color);
+}
+
 .item-details {
   font-size: 0.85rem;
   color: var(--text-secondary);
