@@ -66,7 +66,6 @@ class UI {
             <select id="foodSelect" class="food-select">
               <option value="">Select food...</option>
             </select>
-            <input type="number" id="servingsInput" class="qty-input" min="1" step="1" value="1" placeholder="Qty">
             <button id="addFoodBtn" class="btn btn-primary">Add</button>
           </div>
           <div class="custom-food-row">
@@ -102,8 +101,16 @@ class UI {
               <input type="number" id="goalProtein" class="input" min="0" step="1">
             </div>
             <div class="settings-group">
+              <label>Theme:</label>
+              <select id="themeSelect" class="input">
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+              </select>
+            </div>
+            <div class="settings-group">
               <h3>Data Management</h3>
               <button id="exportBtn" class="btn btn-secondary"><i class="bi bi-download"></i> Export Data</button>
+              <button id="exportCsvBtn" class="btn btn-secondary"><i class="bi bi-file-earmark-csv"></i> Export to CSV</button>
               <button id="importBtn" class="btn btn-secondary"><i class="bi bi-upload"></i> Import Data</button>
               <button id="clearBtn" class="btn btn-danger"><i class="bi bi-trash"></i> Clear All Data</button>
             </div>
@@ -254,7 +261,6 @@ class UI {
                   </div>
                 </div>
                 <div class="item-actions">
-                  <input type="number" class="item-servings-input" data-meal="${meal}" data-item-id="${item.id}" value="${item.servings}" min="1" step="1">
                   <button class="btn-icon delete-item" data-meal="${meal}" data-item-id="${item.id}"><i class="bi bi-trash"></i></button>
                 </div>
               </div>
@@ -270,8 +276,7 @@ class UI {
     const goals = getGoals();
     document.getElementById('goalCalories').value = goals.calorieTarget;
     document.getElementById('goalProtein').value = goals.proteinTarget;
-
-
+    document.getElementById('themeSelect').value = getTheme();
   }
 
   // Helper to get category label
@@ -325,7 +330,6 @@ class UI {
   // Clear food input
   clearFoodInput() {
     document.getElementById('foodSelect').value = '';
-    document.getElementById('servingsInput').value = '1';
   }
 
   // Show notification (temporary message)

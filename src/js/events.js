@@ -34,12 +34,12 @@ function attachEventListeners() {
 
   // Meal item actions
   document.addEventListener('click', handleMealItemActions);
-  document.addEventListener('input', handleItemServingsChange);
 
 
 
   // Data management
   document.getElementById('exportBtn').addEventListener('click', handleExportData);
+  document.getElementById('exportCsvBtn').addEventListener('click', handleExportCsv);
   document.getElementById('importBtn').addEventListener('click', handleImportData);
   document.getElementById('clearBtn').addEventListener('click', handleClearAllData);
 
@@ -48,9 +48,14 @@ function attachEventListeners() {
     if (e.key === 'Enter') handleAddCustomFood();
   });
 
-  // Enter key for meal selection
-  document.getElementById('servingsInput').addEventListener('keypress', e => {
+  // Enter key for food selection (servingsInput removed - all items default to 1 serving)
+  document.getElementById('foodSelect').addEventListener('keypress', e => {
     if (e.key === 'Enter') handleAddFood();
+  });
+
+  // Theme change listener
+  document.getElementById('themeSelect').addEventListener('change', e => {
+    applyTheme(e.target.value);
   });
 }
 
@@ -104,8 +109,11 @@ function handleSaveSettings() {
     calorieTarget: parseInt(document.getElementById('goalCalories').value) || 2000,
     proteinTarget: parseInt(document.getElementById('goalProtein').value) || 100
   };
+  const theme = document.getElementById('themeSelect').value;
 
   saveGoals(goals);
+  saveTheme(theme);
+  applyTheme(theme);
   ui.hideSettings();
   ui.updateDisplay();
   ui.showNotification('Settings saved!');
@@ -128,7 +136,6 @@ function handleCopyLog() {
 // Food logging
 function handleAddFood() {
   const foodSelect = document.getElementById('foodSelect');
-  const servingsInput = document.getElementById('servingsInput');
   const mealSelect = document.getElementById('mealSelect');
 
   if (!foodSelect.value) {
@@ -137,7 +144,7 @@ function handleAddFood() {
   }
 
   const food = JSON.parse(foodSelect.value);
-  const servings = parseFloat(servingsInput.value) || 1;
+  const servings = 1;  // Default to 1 serving
   const meal = mealSelect.value;
 
   const foodEntry = createFoodEntry(food, servings);
@@ -151,7 +158,7 @@ function handleAddFood() {
 function handleFoodSelect(e) {
   if (e.target.value) {
     const food = JSON.parse(e.target.value);
-    document.getElementById('servingsInput').value = '1';
+    // Quantity input removed - all items default to 1 serving
   }
 }
 
@@ -219,18 +226,6 @@ function handleMealItemActions(e) {
   }
 }
 
-function handleItemServingsChange(e) {
-  const input = e.target.closest('.item-servings-input');
-  if (!input) return;
-
-  const meal = input.dataset.meal;
-  const itemId = input.dataset.itemId;
-  const newServings = parseFloat(input.value) || 1;
-
-  updateFoodInMeal(ui.currentDate, meal, itemId, newServings);
-  ui.updateDisplay();
-}
-
 
 
 // Data management
@@ -245,6 +240,39 @@ function handleExportData() {
   link.click();
   URL.revokeObjectURL(url);
   ui.showNotification('Data exported!');
+}
+
+function handleExportCsv() {
+  // Get all logs from localStorage
+  const logsData = JSON.parse(localStorage.getItem('calorieTrackerLogs') || '{}');
+  
+  // Create CSV header
+  let csv = 'Date,Meal Type,Food Name,Calories,Protein (g),Servings\n';
+  
+  // Sort dates and process each day's logs
+  const sortedDates = Object.keys(logsData).sort();
+  
+  sortedDates.forEach(date => {
+    const meals = logsData[date];
+    ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(meal => {
+      const items = meals[meal] || [];
+      items.forEach(item => {
+        // Escape quotes in food name for CSV
+        const foodName = (item.foodName || '').replace(/"/g, '""');
+        csv += `"${date}","${meal}","${foodName}",${item.calories || 0},${item.protein || 0},${item.servings || 1}\n`;
+      });
+    });
+  });
+  
+  // Create blob and download
+  const csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(csvBlob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `calorie-tracker-${new Date().toISOString().split('T')[0]}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+  ui.showNotification('Data exported to CSV!');
 }
 
 function handleImportData() {
@@ -330,4 +358,13 @@ function handleSendToGrok() {
     window.open('https://grok.com/', '_blank');
     ui.showNotification('Could not copy to clipboard', 'warning');
   });
+}
+
+// Apply theme to document
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
 }

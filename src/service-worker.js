@@ -1,4 +1,4 @@
-const CACHE_NAME = 'caltrack-v13';
+const CACHE_NAME = 'caltrack-v19';
 const urlsToCache = [
   'index.html',
   'css/styles.css',

@@ -4,7 +4,8 @@ const STORAGE_KEYS = {
   LOGS: 'calorieTrackerLogs',
   GOALS: 'calorieTrackerGoals',
   CUSTOM_FOODS: 'calorieTrackerCustomFoods',
-  WEIGHTS: 'calorieTrackerWeights'
+  WEIGHTS: 'calorieTrackerWeights',
+  THEME: 'calorieTrackerTheme'
 };
 
 const DEFAULT_GOALS = {
@@ -24,6 +25,9 @@ function initializeStorage() {
   }
   if (!localStorage.getItem(STORAGE_KEYS.WEIGHTS)) {
     localStorage.setItem(STORAGE_KEYS.WEIGHTS, JSON.stringify({}));
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.THEME)) {
+    localStorage.setItem(STORAGE_KEYS.THEME, 'dark');
   }
 }
 
@@ -79,6 +83,16 @@ function getCurrentMealType() {
   else {
     return 'snacks';
   }
+}
+
+// Get current theme preference
+function getTheme() {
+  return localStorage.getItem(STORAGE_KEYS.THEME) || 'dark';
+}
+
+// Save theme preference
+function saveTheme(theme) {
+  localStorage.setItem(STORAGE_KEYS.THEME, theme);
 }
 
 // Get all logs or create empty structure for a date

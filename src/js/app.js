@@ -4,6 +4,10 @@ function initializeApp() {
   // Initialize storage on first load
   initializeStorage();
 
+  // Apply saved theme
+  const savedTheme = getTheme();
+  applyTheme(savedTheme);
+
   // Render UI
   ui.render();
 
