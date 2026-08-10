@@ -161,6 +161,14 @@ const DEFAULT_FOODS = [
   isCustom: false
 },
 {
+  id: "banana",
+  name: "Banana",
+  category: "Snack",
+  calories: 105,
+  protein: 1,
+  isCustom: false
+},
+{
   id: "chicken-drumstick",
   name: "Chicken Drumstick",
   category: "Lunch",
