@@ -153,6 +153,14 @@ const DEFAULT_FOODS = [
   isCustom: false
 },
 {
+  id: "apple",
+  name: "Apple",
+  category: "Snack",
+  calories: 65,
+  protein: 0,
+  isCustom: false
+},
+{
   id: "chicken-drumstick",
   name: "Chicken Drumstick",
   category: "Lunch",
