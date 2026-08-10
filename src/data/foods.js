@@ -151,6 +151,22 @@ const DEFAULT_FOODS = [
   calories: 75,
   protein: 6,
   isCustom: false
+},
+{
+  id: "chicken-drumstick",
+  name: "Chicken Drumstick",
+  category: "Lunch",
+  calories: 170,
+  protein: 20,
+  isCustom: false
+},
+{
+  id: "cottage-cheese-flatbread",
+  name: "Cottage Cheese Flatbread (1/4)",
+  category: "Lunch",
+  calories: 90,
+  protein: 6,
+  isCustom: false
 }
 ];
 
@@ -169,5 +185,24 @@ function getFoodsByCategory(category, customFoods = []) {
 // Get unique categories
 function getCategories(customFoods = []) {
   const categories = new Set(getAllFoods(customFoods).map(food => food.category));
-  return Array.from(categories).sort();
+  const categoryArray = Array.from(categories);
+  
+  // Define desired order: Breakfast, Lunch, Dinner, Snack
+  const desiredOrder = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+  
+  // Sort categories according to desired order
+  return categoryArray.sort((a, b) => {
+    const indexA = desiredOrder.indexOf(a);
+    const indexB = desiredOrder.indexOf(b);
+    
+    // If both are in desired order, use that order
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    
+    // If only one is in desired order, it comes first
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+    
+    // Otherwise, sort alphabetically
+    return a.localeCompare(b);
+  });
 }
