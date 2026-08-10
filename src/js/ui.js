@@ -55,6 +55,16 @@ class UI {
           <button id="saveWeightBtn" class="btn btn-small"><i class="bi bi-check"></i></button>
         </div>
 
+        <div class="water-tracker">
+          <label>Water Intake:</label>
+          <div class="water-drops" id="waterDrops">
+            <button class="water-drop" data-index="0"><i class="bi bi-droplet"></i></button>
+            <button class="water-drop" data-index="1"><i class="bi bi-droplet"></i></button>
+            <button class="water-drop" data-index="2"><i class="bi bi-droplet"></i></button>
+            <button class="water-drop" data-index="3"><i class="bi bi-droplet"></i></button>
+          </div>
+        </div>
+
         <div class="add-food-panel">
           <div class="food-input-row">
             <select id="mealSelect" class="meal-select">
@@ -106,6 +116,12 @@ class UI {
                 <option value="dark">Dark</option>
                 <option value="light">Light</option>
               </select>
+            </div>
+            <div class="settings-group">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="waterTrackingCheckbox" role="switch">
+                <label class="form-check-label" for="waterTrackingCheckbox">Enable Water Intake Tracking</label>
+              </div>
             </div>
             <div class="settings-group">
               <h3>Data Management</h3>
@@ -199,6 +215,9 @@ class UI {
     // Update meals display
     this.updateMealsDisplay(summary.mealTotals);
 
+    // Update water display
+    this.updateWaterDisplay();
+
     // Update settings modal
     this.updateSettingsModal();
   }
@@ -277,6 +296,27 @@ class UI {
     document.getElementById('goalCalories').value = goals.calorieTarget;
     document.getElementById('goalProtein').value = goals.proteinTarget;
     document.getElementById('themeSelect').value = getTheme();
+    document.getElementById('waterTrackingCheckbox').checked = isWaterTrackingEnabled();
+  }
+
+  // Update water drops display
+  updateWaterDisplay() {
+    const waterTracker = document.querySelector('.water-tracker');
+    if (!isWaterTrackingEnabled()) {
+      waterTracker.style.display = 'none';
+      return;
+    }
+    waterTracker.style.display = 'block';
+    
+    const waterCount = getWaterForDate(this.currentDate);
+    const dropButtons = document.querySelectorAll('.water-drop');
+    dropButtons.forEach((btn, index) => {
+      if (index < waterCount) {
+        btn.classList.add('filled');
+      } else {
+        btn.classList.remove('filled');
+      }
+    });
   }
 
   // Helper to get category label

@@ -11,6 +11,9 @@ function attachEventListeners() {
     if (e.key === 'Enter') handleSaveWeight();
   });
 
+  // Water tracking
+  document.getElementById('waterDrops').addEventListener('click', handleWaterDrop);
+
   // Settings
   document.getElementById('settingsBtn').addEventListener('click', handleOpenSettings);
   document.getElementById('closeSettingsBtn').addEventListener('click', handleCloseSettings);
@@ -95,6 +98,30 @@ function handleSaveWeight() {
   ui.showNotification(`Saved weight: ${weight.toFixed(1)} lbs`);
 }
 
+// Water tracking
+function handleWaterDrop(e) {
+  if (!e.target.closest('.water-drop')) return;
+  
+  const clickedDrop = e.target.closest('.water-drop');
+  const index = parseInt(clickedDrop.dataset.index);
+  const currentWater = getWaterForDate(ui.currentDate);
+  
+  // Toggle: if clicking on a filled drop before the last filled drop, set water count to that index
+  // If clicking on the next empty drop, fill it
+  // If clicking on a filled drop that's the last one, unfill it
+  let newWaterCount;
+  if (index < currentWater) {
+    // Clicking on a filled drop - toggle it off
+    newWaterCount = index;
+  } else {
+    // Clicking on an empty drop - fill it
+    newWaterCount = index + 1;
+  }
+  
+  saveWaterForDate(ui.currentDate, newWaterCount);
+  ui.updateDisplay();
+}
+
 // Settings
 function handleOpenSettings() {
   ui.showSettings();
@@ -110,9 +137,11 @@ function handleSaveSettings() {
     proteinTarget: parseInt(document.getElementById('goalProtein').value) || 100
   };
   const theme = document.getElementById('themeSelect').value;
+  const waterEnabled = document.getElementById('waterTrackingCheckbox').checked;
 
   saveGoals(goals);
   saveTheme(theme);
+  setWaterTrackingEnabled(waterEnabled);
   applyTheme(theme);
   ui.hideSettings();
   ui.updateDisplay();

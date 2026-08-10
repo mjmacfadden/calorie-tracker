@@ -5,7 +5,9 @@ const STORAGE_KEYS = {
   GOALS: 'calorieTrackerGoals',
   CUSTOM_FOODS: 'calorieTrackerCustomFoods',
   WEIGHTS: 'calorieTrackerWeights',
-  THEME: 'calorieTrackerTheme'
+  THEME: 'calorieTrackerTheme',
+  WATER: 'calorieTrackerWater',
+  WATER_ENABLED: 'calorieTrackerWaterEnabled'
 };
 
 const DEFAULT_GOALS = {
@@ -28,6 +30,12 @@ function initializeStorage() {
   }
   if (!localStorage.getItem(STORAGE_KEYS.THEME)) {
     localStorage.setItem(STORAGE_KEYS.THEME, 'dark');
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.WATER)) {
+    localStorage.setItem(STORAGE_KEYS.WATER, JSON.stringify({}));
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.WATER_ENABLED)) {
+    localStorage.setItem(STORAGE_KEYS.WATER_ENABLED, 'true');
   }
 }
 
@@ -93,6 +101,29 @@ function getTheme() {
 // Save theme preference
 function saveTheme(theme) {
   localStorage.setItem(STORAGE_KEYS.THEME, theme);
+}
+
+// Get water intake for a date (0-4 cups)
+function getWaterForDate(dateString) {
+  const waterData = JSON.parse(localStorage.getItem(STORAGE_KEYS.WATER) || '{}');
+  return waterData[dateString] || 0;
+}
+
+// Save water intake for a date
+function saveWaterForDate(dateString, count) {
+  const waterData = JSON.parse(localStorage.getItem(STORAGE_KEYS.WATER) || '{}');
+  waterData[dateString] = Math.max(0, Math.min(4, count)); // Clamp between 0-4
+  localStorage.setItem(STORAGE_KEYS.WATER, JSON.stringify(waterData));
+}
+
+// Get water tracking enabled setting
+function isWaterTrackingEnabled() {
+  return localStorage.getItem(STORAGE_KEYS.WATER_ENABLED) !== 'false';
+}
+
+// Set water tracking enabled setting
+function setWaterTrackingEnabled(enabled) {
+  localStorage.setItem(STORAGE_KEYS.WATER_ENABLED, enabled ? 'true' : 'false');
 }
 
 // Get all logs or create empty structure for a date
@@ -251,6 +282,7 @@ function exportData() {
     goals: getGoals(),
     customFoods: getCustomFoods(),
     weights: getWeights(),
+    water: JSON.parse(localStorage.getItem(STORAGE_KEYS.WATER) || '{}'),
     exportedAt: new Date().toISOString()
   };
 }
@@ -265,6 +297,9 @@ function importData(data) {
   }
   if (data.customFoods) {
     localStorage.setItem(STORAGE_KEYS.CUSTOM_FOODS, JSON.stringify(data.customFoods));
+  }
+  if (data.water) {
+    localStorage.setItem(STORAGE_KEYS.WATER, JSON.stringify(data.water));
   }
   if (data.weights) {
     localStorage.setItem(STORAGE_KEYS.WEIGHTS, JSON.stringify(data.weights));
