@@ -153,6 +153,14 @@ const DEFAULT_FOODS = [
   isCustom: false
 },
 {
+  id: "greek-yogurt",
+  name: "Greek Yogurt",
+  category: "Snack",
+  calories: 130,
+  protein: 12,
+  isCustom: false
+},
+{
   id: "apple",
   name: "Apple",
   category: "Snack",
