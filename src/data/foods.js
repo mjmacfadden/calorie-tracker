@@ -191,7 +191,14 @@ const DEFAULT_FOODS = [
   calories: 90,
   protein: 6,
   isCustom: false
-}
+},
+{
+  id: "tuna-creations",
+  name: "Tuna Creations",
+  category: "Lunch",
+  calories: 110,
+  protein: 15,
+  isCustom: false }
 ];
 
 // Export function to get all foods (default + custom)
