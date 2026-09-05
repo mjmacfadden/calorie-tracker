@@ -7,7 +7,7 @@ const urlsToCache = [
   'js/events.js',
   'js/storage.js',
   'js/calculations.js',
-  'data/foods.js?v=1.8',
+  'data/foods.js?v=1.9',
   'images/favicon.png',
   'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css',
   'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js'
