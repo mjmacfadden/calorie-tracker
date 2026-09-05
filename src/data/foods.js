@@ -198,6 +198,14 @@ const DEFAULT_FOODS = [
   category: "Lunch",
   calories: 110,
   protein: 15,
+  isCustom: false 
+},
+{
+  id: "buffalo-chicken-dip",
+  name: "Buffalo Chicken Dip",
+  category: "Lunch",
+  calories: 146,
+  protein: 28.5,
   isCustom: false }
 ];
 
